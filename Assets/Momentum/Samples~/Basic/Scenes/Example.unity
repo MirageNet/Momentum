@@ -229,8 +229,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 55.3}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 0, y: 51.8}
+  m_SizeDelta: {x: 160, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &51509603
 MonoBehaviour:
@@ -1033,11 +1033,11 @@ MonoBehaviour:
   Started:
     m_PersistentCalls:
       m_Calls: []
-  Port: 7777
-  HashCashBits: 18
-  SendWindowSize: 32
+  Port: 9777
+  HashCashBits: 15
+  SendWindowSize: 128
   ReceiveWindowSize: 8192
-  delayMode: 0
+  delayMode: 3
 --- !u!114 &249891955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1191,7 +1191,8 @@ MonoBehaviour:
   client: {fileID: 249891958}
   networkSceneManager: {fileID: 249891960}
   spawnPrefabs:
-  - {fileID: 1088833923132447018, guid: 22f1fa3a0aff72b46a371f667bb4fb30, type: 3}
+  - {fileID: -3733129792318424793, guid: 6c1578bfc8ad34086ab55ae1feb5663b, type: 3}
+  - {fileID: 2124768554249554511, guid: c4665418bbd6349a092ac23df4991df5, type: 3}
 --- !u!114 &249891962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1221,21 +1222,23 @@ MonoBehaviour:
   Levels:
   - Name: NetworkIdentity
     level: 2
-  - Name: PlayerSpawner
+  - Name: RemoteCallHelper
     level: 2
-  - Name: ServerObjectManager
-    level: 2
-  - Name: ClientObjectManager
-    level: 2
-  - Name: NetworkClient
-    level: 2
-  - Name: NetworkTime
+  - Name: NetworkBehaviour
     level: 2
   - Name: NetworkSceneManager
     level: 2
+  - Name: PlayerSpawner
+    level: 2
   - Name: NetworkServer
     level: 2
-  - Name: NetworkBehaviour
+  - Name: NetworkTime
+    level: 2
+  - Name: NetworkClient
+    level: 3
+  - Name: ServerObjectManager
+    level: 2
+  - Name: ClientObjectManager
     level: 2
   - Name: EnterPlayModeSettingsCheck
     level: 2
@@ -1248,8 +1251,6 @@ MonoBehaviour:
   - Name: NetworkWriterPool
     level: 2
   - Name: NetworkReaderPool
-    level: 2
-  - Name: RemoteCallHelper
     level: 2
   - Name: BasicAuthenticator
     level: 2
@@ -1330,8 +1331,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 21.5}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 0, y: 19.9}
+  m_SizeDelta: {x: 160, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &283483317
 MonoBehaviour:
@@ -8622,7 +8623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &476531299530866964
 GameObject:
   m_ObjectHideFlags: 0
@@ -8638,7 +8639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &476531299530866965
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8739,7 +8740,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -11.9}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 160, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &476531299884190724
 MonoBehaviour:
@@ -8912,7 +8913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.078431375}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.83137256}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
