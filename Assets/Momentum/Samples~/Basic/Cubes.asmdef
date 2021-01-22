@@ -1,8 +1,8 @@
 {
     "name": "Cubes",
-    "rootNamespace": "",
     "references": [
         "GUID:30817c1a0e6d646d99c048fc403f5979",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:2bafac87e7f4b9b418d9448d219b01ab"
     ],
     "includePlatforms": [],
