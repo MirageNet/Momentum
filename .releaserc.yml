@@ -3,11 +3,11 @@ plugins:
   - '@semantic-release/release-notes-generator'
   - '@semantic-release/commit-analyzer'
   - - '@semantic-release/changelog'
-    - changelogFile: 'Assets/MyPlugin/CHANGELOG.md'
+    - changelogFile: 'Assets/Momentum/CHANGELOG.md'
   - - '@semantic-release/npm'
     - npmPublish: false,
-      pkgRoot: 'Assets/MyPlugin'
+      pkgRoot: 'Assets/Momentum'
   - - '@semantic-release/git'
     - assets:
-      - 'Assets/MyPlugin/package.json'
-      - 'Assets/MyPlugin/CHANGELOG.md'
+      - 'Assets/Momentum/package.json'
+      - 'Assets/Momentum/CHANGELOG.md'
