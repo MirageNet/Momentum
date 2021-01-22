@@ -5,14 +5,11 @@ using UnityEngine;
 public class BoxController : MonoBehaviour
 {
 
-    public Rigidbody rigidBody;
-
     public Material stuckMaterial;
 
     private Transform stuckTo;
     private Vector3 stuckPosition;
     private Quaternion stuckRotation;
-    public Collider myCollider;
 
     public void FixedUpdate()
     {
@@ -31,14 +28,10 @@ public class BoxController : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            rigidBody.isKinematic = true;
-
             GetComponent<Renderer>().sharedMaterial = stuckMaterial;
             stuckTo = other.transform;
             stuckPosition = other.transform.InverseTransformPoint(transform.position);
             stuckRotation = Quaternion.Inverse(other.transform.rotation) * transform.rotation;
-
-            myCollider.enabled = false;
         }
     }
 
