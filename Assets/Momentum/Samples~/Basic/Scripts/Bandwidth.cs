@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.UI;
-
+using System;
 
 public class Bandwidth : MonoBehaviour
 {
     
     public Transport transport;
     public Text text;
+
+    public void Start()
+    {
+        StartCoroutine(Refresh());
+    }
 
     public IEnumerator Refresh()
     {
@@ -26,6 +31,24 @@ public class Bandwidth : MonoBehaviour
             long receivedDiff = receivedBytes - prevReceivedBytes;
             long sentDiff = sentBytes - prevSentBytes;
 
+            prevReceivedBytes = receivedBytes;
+            prevSentBytes = sentBytes;
+            text.text = $"↓{Format(receivedDiff)} ↑{Format(sentDiff)}";
         }
+    }
+
+    private string Format(long bytes)
+    {
+        if (bytes >= 1_000_000)
+        {
+            float formatted = bytes / 1_000_000.0f;
+            return $"{formatted:.2} MBps";
+        }
+        if (bytes >= 1_000)
+        {
+            float formatted = bytes / 1_000.0f;
+            return $"{formatted:.2} KBps";
+        }
+        return $"{bytes} Bps";
     }
 }
