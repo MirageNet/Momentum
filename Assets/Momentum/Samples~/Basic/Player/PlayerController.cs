@@ -10,7 +10,6 @@ namespace Mirror.Examples.Basic
         public float moveForce = 3;
         public float topSpeed = 10;
 
-
         private Vector3 force;
 
         public void FixedUpdate()
