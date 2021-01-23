@@ -23,24 +23,24 @@ namespace Mirror.Momentum
     public struct Sequencer
     {
         int _shift;
-        int _bytes;
+        int bits;
 
         ulong _mask;
         ulong _sequence;
 
-        public int Bytes => _bytes;
+        public int Bits => bits;
 
-        public Sequencer(int bytes)
+        public Sequencer(int bits)
         {
             // 1 byte
             // (1 << 8) = 256
             // - 1      = 255
             //          = 1111 1111
 
-            _bytes = bytes;
+            this.bits = bits;
             _sequence = 0;
-            _mask = (1UL << (bytes * 8)) - 1UL;
-            _shift = (sizeof(ulong) - bytes) * 8;
+            _mask = (1UL << bits) - 1UL;
+            _shift = sizeof(ulong) * 8 - bits;
         }
 
         public ulong Next()
