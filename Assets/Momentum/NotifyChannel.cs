@@ -5,15 +5,16 @@ using UnityEngine;
 namespace Mirror.Momentum
 {
 
-    public class NotifyChannel : MonoBehaviour
+    public class NotifyChannel
     {
-        public NetworkClient NetworkClient;
-        public NetworkServer NetworkServer;
+        private readonly INetworkConnection connection;
 
-        public void Awake()
+        public NotifyChannel(INetworkConnection connection)
         {
+            this.connection = connection;
 
         }
+
 
     }
 }
