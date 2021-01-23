@@ -22,11 +22,10 @@ namespace Mirror.Momentum
 {
     public struct Sequencer
     {
-        int _shift;
-        int bits;
-
-        ulong _mask;
-        ulong _sequence;
+        readonly int shift;
+        readonly int bits;
+        readonly ulong mask;
+        ulong sequence;
 
         public int Bits => bits;
 
@@ -38,26 +37,26 @@ namespace Mirror.Momentum
             //          = 1111 1111
 
             this.bits = bits;
-            _sequence = 0;
-            _mask = (1UL << bits) - 1UL;
-            _shift = sizeof(ulong) * 8 - bits;
+            sequence = 0;
+            mask = (1UL << bits) - 1UL;
+            shift = sizeof(ulong) * 8 - bits;
         }
 
         public ulong Next()
         {
-            return _sequence = NextAfter(_sequence);
+            return sequence = NextAfter(sequence);
         }
 
         public ulong NextAfter(ulong sequence)
         {
-            return (sequence + 1UL) & _mask;
+            return (sequence + 1UL) & mask;
         }
 
         public long Distance(ulong from, ulong to)
         {
-            to <<= _shift;
-            from <<= _shift;
-            return ((long)(from - to)) >> _shift;
+            to <<= shift;
+            from <<= shift;
+            return ((long)(from - to)) >> shift;
         }
 
         // 0 1 2 3 4 5 6 7 8 9 ... 255
