@@ -3541,8 +3541,8 @@ MonoBehaviour:
       m_Calls: []
   Port: 9777
   HashCashBits: 15
-  SendWindowSize: 128
-  ReceiveWindowSize: 8192
+  SendWindowSize: 512
+  ReceiveWindowSize: 65000
   delayMode: 3
 --- !u!114 &249891955
 MonoBehaviour:

@@ -42,12 +42,12 @@ public class Bandwidth : MonoBehaviour
         if (bytes >= 1_000_000)
         {
             float formatted = bytes / 1_000_000.0f;
-            return $"{formatted:.2} MBps";
+            return $"{formatted:G3} MBps";
         }
         if (bytes >= 1_000)
         {
             float formatted = bytes / 1_000.0f;
-            return $"{formatted:.2} KBps";
+            return $"{formatted:G3} KBps";
         }
         return $"{bytes} Bps";
     }
