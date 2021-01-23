@@ -4,7 +4,6 @@ namespace Mirror.Momentum
 {
     public class SequencerTest
     {
-        // A Test behaves as an ordinary method
         [Test]
         public void TestNext()
         {
