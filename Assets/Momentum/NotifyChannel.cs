@@ -55,7 +55,7 @@ namespace Mirror.Momentum
     /// lost      2 3 4
     /// </remarks>
     /// 
-    public class NotifyChannel
+    public class NotifyChannel : INotifyChannel
     {
         private readonly INetworkConnection connection;
 
@@ -74,7 +74,7 @@ namespace Mirror.Momentum
         }
     }
 
-    
+
 
 
 }

@@ -9,7 +9,7 @@ namespace Mirror.Momentum
     {
 
         private INetworkConnection connection;
-        private NotifyChannel notifyChannel;
+        private INotifyChannel notifyChannel;
 
         [SetUp]
         public void SetUp()
