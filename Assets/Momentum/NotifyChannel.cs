@@ -55,7 +55,7 @@ namespace Mirror.Momentum
         private readonly INetworkConnection connection;
         private Sequencer sequencer;
 
-        public event Action<ArraySegment<byte>, int> PacketReceived;
+        public event Action<ArraySegment<byte>> PacketReceived;
         public event Action<int> PacketLost;
         public event Action<int> PacketDelivered;
 
@@ -65,7 +65,6 @@ namespace Mirror.Momentum
         private ulong receiveMask;
 
         const int ACK_MASK_BITS = sizeof(ulong) * 8;
-        const int WINDOW_SIZE = 512;
 
         public NotifyChannel(INetworkConnection connection)
         {
@@ -113,6 +112,8 @@ namespace Mirror.Momentum
                 receiveMask = (receiveMask << sequenceDistance) | 1;
 
             AckPackets(packet.ReceiveSequence, packet.AckMask);
+
+            PacketReceived?.Invoke(packet.Payload);
         }
 
         // the other end just sent us a message
