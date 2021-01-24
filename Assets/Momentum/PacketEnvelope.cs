@@ -1,6 +1,6 @@
 ﻿namespace Mirror.Momentum
 {
-    internal class PacketEnvelope
+    internal struct PacketEnvelope
     {
         internal ushort Sequence;
         internal int Token;
