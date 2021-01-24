@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/MirrorNG/Momentum/compare/v1.1.0...v1.1.1) (2021-01-24)
+
+
+### Performance Improvements
+
+* eliminate packet envelope allocation ([fc219b5](https://github.com/MirrorNG/Momentum/commit/fc219b5b46d41d5f998594c2759a284ee1ee8bd5))
+
 # [1.1.0](https://github.com/MirrorNG/Momentum/compare/v1.0.0...v1.1.0) (2021-01-24)
 
 
