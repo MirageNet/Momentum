@@ -58,6 +58,7 @@ namespace Mirror.Momentum
     public class NotifyChannel : INotifyChannel
     {
         private readonly INetworkConnection connection;
+        private Sequencer sequencer;
 
         public event Action<ArraySegment<byte>, int> PacketReceived;
         public event Action<int> PacketLost;
@@ -65,12 +66,28 @@ namespace Mirror.Momentum
 
         public NotifyChannel(INetworkConnection connection)
         {
+            sequencer = new Sequencer(16);
             this.connection = connection;
+
+            this.connection.RegisterHandler<NotifyPacket>(Receive);
+        }
+
+        private void Receive(NotifyPacket arg2)
+        {
+            throw new NotImplementedException();
         }
 
         public void Send(ArraySegment<byte> payload, int token)
         {
+            var packet = new NotifyPacket
+            {
+                Sequence = (ushort)sequencer.Next(),
+                ReceiveSequence = 0,
+                AckMask = 0,
+                Payload = payload
+            };
 
+            connection.Send(packet, Channel.Unreliable);
         }
     }
 
