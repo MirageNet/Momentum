@@ -6,7 +6,7 @@
     "description": "A plugin for MirrorNG for movement synchronization",
     "author": "Paul Pacheco",
     "dependencies": {
-        "com.mirrorng.mirrorng": "61.0.0",
+        "com.mirrorng.mirrorng": "62.9.0",
         "com.cysharp.unitask": "2.0.36"
     },
     "samples": [
