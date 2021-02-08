@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/MirrorNG/Momentum/compare/v1.1.1...v2.0.0) (2021-01-26)
+
+
+### Code Refactoring
+
+* Remove NotifyChannel ([2daf377](https://github.com/MirrorNG/Momentum/commit/2daf3776da093683c4c7759ca391b2ff722bd481))
+
+
+### BREAKING CHANGES
+
+* Removed NotifyChannel
+
 ## [1.1.1](https://github.com/MirrorNG/Momentum/compare/v1.1.0...v1.1.1) (2021-01-24)
 
 
