@@ -1,3 +1,11 @@
+# [2.2.0](https://github.com/MirrorNG/Momentum/compare/v2.1.0...v2.2.0) (2021-02-08)
+
+
+### Features
+
+* polish tanks example a bit ([fdde051](https://github.com/MirrorNG/Momentum/commit/fdde05103faa6c0349b55b784dd57a7a1a46338f))
+* smooth out bandwidth ([7ecabcb](https://github.com/MirrorNG/Momentum/commit/7ecabcb8505efd7e3bcb3f1b8f92009f94767bda))
+
 # [2.1.0](https://github.com/MirrorNG/Momentum/compare/v2.0.0...v2.1.0) (2021-02-08)
 
 
