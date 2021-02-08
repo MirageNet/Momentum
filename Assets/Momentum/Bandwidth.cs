@@ -37,18 +37,20 @@ public class Bandwidth : MonoBehaviour
         }
     }
 
-    private string Format(long bytes)
+    private string Format(long bytesPerSecond)
     {
-        if (bytes >= 1_000_000)
+        long bitsPerSecond = bytesPerSecond * 8;
+
+        if (bitsPerSecond >= 1_000_000)
         {
-            float formatted = bytes / 1_000_000.0f;
-            return $"{formatted:G3} MBps";
+            float formatted = bitsPerSecond / 1_000_000.0f;
+            return $"{formatted:G3} Mbps";
         }
-        if (bytes >= 1_000)
+        if (bitsPerSecond >= 1_000)
         {
-            float formatted = bytes / 1_000.0f;
-            return $"{formatted:G3} KBps";
+            float formatted = bitsPerSecond / 1_000.0f;
+            return $"{formatted:G3} Kbps";
         }
-        return $"{bytes} Bps";
+        return $"{bitsPerSecond} bps";
     }
 }

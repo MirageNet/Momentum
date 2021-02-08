@@ -3517,6 +3517,7 @@ GameObject:
   - component: {fileID: 249891961}
   - component: {fileID: 249891962}
   - component: {fileID: 249891963}
+  - component: {fileID: 249891964}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -3556,12 +3557,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7aaac73a16c040fd871cb977b5c557b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  client: {fileID: 249891958}
-  server: {fileID: 249891959}
-  sceneManager: {fileID: 249891960}
-  clientObjectManager: {fileID: 249891961}
-  serverObjectManager: {fileID: 249891962}
-  playerPrefab: {fileID: 2124768554249554511, guid: c4665418bbd6349a092ac23df4991df5, type: 3}
+  Client: {fileID: 249891958}
+  Server: {fileID: 249891959}
+  SceneManager: {fileID: 249891960}
+  ClientObjectManager: {fileID: 249891961}
+  ServerObjectManager: {fileID: 249891962}
+  PlayerPrefab: {fileID: 2124768554249554511, guid: c4665418bbd6349a092ac23df4991df5, type: 3}
   startPositionIndex: 0
   startPositions: []
   playerSpawnMethod: 1
@@ -3577,11 +3578,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aab4c8111b7c411b9b92cf3dbc5bd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  server: {fileID: 249891959}
-  client: {fileID: 249891958}
-  sceneManager: {fileID: 249891960}
-  serverObjectManager: {fileID: 249891962}
-  clientObjectManager: {fileID: 249891961}
+  Server: {fileID: 249891959}
+  Client: {fileID: 249891958}
+  SceneManager: {fileID: 249891960}
+  ServerObjectManager: {fileID: 249891962}
+  ClientObjectManager: {fileID: 249891961}
 --- !u!4 &249891957
 Transform:
   m_ObjectHideFlags: 0
@@ -3668,8 +3669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30967dfd80dbb6c46a270a64ebecb951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  client: {fileID: 249891958}
-  server: {fileID: 249891959}
+  Client: {fileID: 249891958}
+  Server: {fileID: 249891959}
   ClientChangeScene:
     m_PersistentCalls:
       m_Calls: []
@@ -3694,8 +3695,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2cbc85c1c2f1c249bbe95ae110bbcde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  client: {fileID: 249891958}
-  networkSceneManager: {fileID: 249891960}
+  Client: {fileID: 249891958}
+  NetworkSceneManager: {fileID: 249891960}
+  Spawned:
+    m_PersistentCalls:
+      m_Calls: []
+  UnSpawned:
+    m_PersistentCalls:
+      m_Calls: []
   spawnPrefabs:
   - {fileID: -3733129792318424793, guid: 6c1578bfc8ad34086ab55ae1feb5663b, type: 3}
   - {fileID: 2124768554249554511, guid: c4665418bbd6349a092ac23df4991df5, type: 3}
@@ -3711,8 +3718,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b750203ddb2d9f84abd799a5c2c32cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  server: {fileID: 249891959}
-  networkSceneManager: {fileID: 249891960}
+  Server: {fileID: 249891959}
+  NetworkSceneManager: {fileID: 249891960}
+  Spawned:
+    m_PersistentCalls:
+      m_Calls: []
+  UnSpawned:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &249891963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3728,23 +3741,23 @@ MonoBehaviour:
   Levels:
   - Name: NetworkIdentity
     level: 2
-  - Name: RemoteCallHelper
-    level: 2
   - Name: NetworkBehaviour
-    level: 2
-  - Name: NetworkSceneManager
-    level: 2
-  - Name: PlayerSpawner
     level: 2
   - Name: NetworkServer
     level: 2
   - Name: NetworkTime
     level: 2
-  - Name: NetworkClient
-    level: 3
   - Name: ServerObjectManager
     level: 2
+  - Name: NetworkClient
+    level: 3
   - Name: ClientObjectManager
+    level: 2
+  - Name: NetworkSceneManager
+    level: 2
+  - Name: PlayerSpawner
+    level: 2
+  - Name: RemoteCallHelper
     level: 2
   - Name: EnterPlayModeSettingsCheck
     level: 2
@@ -3792,6 +3805,25 @@ MonoBehaviour:
     level: 2
   - Name: NetworkDiscoveryBase`2
     level: 2
+  - Name: KcpConnection
+    level: 2
+  - Name: Tests
+    level: 4
+--- !u!114 &249891964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249891953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8bcb84c20f14c63b0a194ff9249699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ticksPerSecond: 30
+  ClientObjectManager: {fileID: 249891961}
+  ServerObjectManager: {fileID: 249891962}
 --- !u!1001 &253589213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5754,7 +5786,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3485129733307652553}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10417,6 +10449,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &707756286
@@ -28913,24 +28946,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5097458596513108543, guid: 6c1578bfc8ad34086ab55ae1feb5663b, type: 3}
   m_PrefabInstance: {fileID: 1374405475}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &70109841017397819
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4560409054502593584}
-  - component: {fileID: 1398763117711418360}
-  - component: {fileID: 5970544067959915468}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!224 &476531298899242152
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29123,6 +29138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -29312,6 +29328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -29367,6 +29384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -29428,6 +29446,7 @@ MonoBehaviour:
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
+  m_ShouldActivateOnSelect: 1
 --- !u!224 &476531299129631509
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30148,6 +30167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -30223,6 +30243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -30321,21 +30342,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1398763117711418360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70109841017397819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
 --- !u!223 &2348147584601918043
 Canvas:
   m_ObjectHideFlags: 0
@@ -30369,7 +30375,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 476531300357636974}
-  - {fileID: 4560409054502593584}
   - {fileID: 379082679}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -30379,20 +30384,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!4 &4560409054502593584
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70109841017397819}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -640, y: -360, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3485129733307652553}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5097458598219731561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30454,25 +30445,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c1578bfc8ad34086ab55ae1feb5663b, type: 3}
---- !u!114 &5970544067959915468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70109841017397819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!1 &6722741377527135724
 GameObject:
   m_ObjectHideFlags: 0
@@ -30549,3 +30521,4 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
