@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/MirrorNG/Momentum/compare/v2.2.0...v2.2.1) (2021-02-10)
+
+
+### Bug Fixes
+
+* movement stops after a few seconds ([d6963c6](https://github.com/MirrorNG/Momentum/commit/d6963c6fb88e864a6c4cb69a22cd8fee7d097efa))
+
 # [2.2.0](https://github.com/MirrorNG/Momentum/compare/v2.1.0...v2.2.0) (2021-02-08)
 
 
