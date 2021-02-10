@@ -15,9 +15,9 @@ namespace Mirror.Momentum
         }
 
         // server time when this snapshot got generated
-        public double time;
+        public double Time;
 
-        public List<ObjectState> currentState = new List<ObjectState>();
+        public List<ObjectState> ObjectsState = new List<ObjectState>();
 
     }
 }

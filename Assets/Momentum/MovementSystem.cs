@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Mirror.Momentum.Snapshot;
 
 namespace Mirror.Momentum
 {
@@ -13,24 +14,29 @@ namespace Mirror.Momentum
     /// </summary>
     public class MovementSystem : MonoBehaviour
     {
-        public float ticksPerSecond = 30;
+        public int SnapshotPerSecond = 30;
 
         public ClientObjectManager ClientObjectManager;
         public ServerObjectManager ServerObjectManager;
 
         private readonly SortedSet<MovementSync> objects = new SortedSet<MovementSync>();
 
+
+        public bool Trace;
+
         public void Awake()
         {
-            ClientObjectManager.Spawned.AddListener(Spawned);
-            ClientObjectManager.UnSpawned.AddListener(UnSpawned);
+            InitServer();
+            InitClient();
+        }
+
+        private void InitServer()
+        {
             ServerObjectManager.Spawned.AddListener(Spawned);
             ServerObjectManager.UnSpawned.AddListener(UnSpawned);
 
             ServerObjectManager.Server.Started.AddListener(OnStartServer);
             ServerObjectManager.Server.Stopped.AddListener(OnStopServer);
-
-            ClientObjectManager.Client.Authenticated.AddListener(OnClientConnected);
         }
 
         private void Spawned(NetworkIdentity ni)
@@ -65,11 +71,9 @@ namespace Mirror.Momentum
             while (true)
             {
                 SendSnapshot();
-                yield return new WaitForSeconds(1f / ticksPerSecond);
+                yield return new WaitForSeconds(1f / SnapshotPerSecond);
             }
         }
-
-        Sequencer snapshotSequencer = new Sequencer(8);
 
         private void SendSnapshot()
         {
@@ -79,26 +83,27 @@ namespace Mirror.Momentum
 
             foreach (INetworkConnection connection in ServerObjectManager.Server.connections)
             {
-                connection.SendNotify(snapshot, null);
+                if (connection.IsReady)
+                    connection.SendNotify(snapshot, null);
             }
         }
 
         private Snapshot TakeSnapshot()
         {
-            Snapshot snapshot = new Snapshot()
+            var snapshot = new Snapshot()
             {
-                time = Time.time
+                Time = Time.unscaledTime
             };
 
-            foreach (var obj in objects)
+            foreach (MovementSync obj in objects)
             {
-                var objectState = new Snapshot.ObjectState()
+                var objectState = new ObjectState()
                 {
                     NetId = obj.NetId,
                     Position = obj.transform.position,
                     Rotation = obj.transform.rotation,
                 };
-                snapshot.currentState.Add(objectState);
+                snapshot.ObjectsState.Add(objectState);
             }
             return snapshot;
         }
@@ -106,19 +111,158 @@ namespace Mirror.Momentum
         #endregion;
 
         #region Client
+
+        double clientInterpolationTime;
+
+        const float INTERPOLATION_OFFSET = 0.2f;
+
+        private void InitClient()
+        {
+            ClientObjectManager.Spawned.AddListener(Spawned);
+            ClientObjectManager.UnSpawned.AddListener(UnSpawned);
+
+            ClientObjectManager.Client.Authenticated.AddListener(OnClientConnected);
+        }
+
         private void OnClientConnected(INetworkConnection connection)
         {
             connection.RegisterHandler<Snapshot>(OnReceiveSnapshot);
         }
 
-        private readonly Queue<Snapshot> snapshots = new Queue<Snapshot>();
+        private readonly List<Snapshot> snapshots = new List<Snapshot>();
 
         // we will interpolate from this snapshot to the next snapshot
-        private Snapshot prev;
 
         private void OnReceiveSnapshot(INetworkConnection arg1, Snapshot snapshot)
         {
-            snapshots.Enqueue(snapshot);            
+            // ignore messages in host mode
+            if (ClientObjectManager.Client.IsLocalClient)
+                return;
+
+            if (Trace)
+            {
+                Debug.Log($"Got snapshot, current count is {snapshots.Count}");
+            }
+            // first snapshot
+            if (snapshots.Count == 0)
+            {
+                clientInterpolationTime = snapshot.Time - INTERPOLATION_OFFSET;
+            }
+
+            snapshots.Add(snapshot);
+        }
+
+        public void Update()
+        {
+            if (ClientObjectManager.Client.IsConnected && !ClientObjectManager.Client.IsLocalClient)
+            {
+                InterpolateObjects();
+            }
+        }
+
+        private void InterpolateObjects()
+        {
+            if (snapshots.Count == 0)
+                return;
+
+            clientInterpolationTime += Time.unscaledDeltaTime;
+
+            float alpha = 0;
+
+            Snapshot from = default;
+            Snapshot to = default;
+            int removeCount = 0;
+
+            for (int i = 0; i< snapshots.Count; i++)
+            {
+                from = snapshots[i];
+
+                if (i + 1 == snapshots.Count)
+                {
+                    to = from;
+                    alpha = 0;
+                }
+                else
+                {
+                    int f = i;
+                    int t = i + 1;
+
+                    if (snapshots[f].Time <= clientInterpolationTime && snapshots[t].Time > clientInterpolationTime)
+                    {
+                        from = snapshots[f];
+                        to = snapshots[t];
+
+                        alpha = Mathf.InverseLerp((float)from.Time, (float)to.Time, (float)clientInterpolationTime);
+                        break;
+                    }
+                    else if (snapshots[t].Time <= clientInterpolationTime)
+                    {
+                        removeCount++;
+                    }
+                }
+            }
+
+            snapshots.RemoveRange(0, removeCount);
+
+            MoveObjects(from, to, alpha);
+        }
+
+        private void MoveObjects(Snapshot from, Snapshot to, float alpha)
+        {
+            var fromEnumerator = from.ObjectsState.GetEnumerator();
+            var toEnumerator = to.ObjectsState.GetEnumerator();
+            var objEnumerator = objects.GetEnumerator();
+
+            if (!fromEnumerator.MoveNext())
+                return;
+
+            if (!toEnumerator.MoveNext())
+                return;
+
+            while (objEnumerator.MoveNext())
+            {
+                // get the from matching the object
+                uint netId = objEnumerator.Current.NetId;
+
+                while (fromEnumerator.Current.NetId < netId)
+                {
+                    // nothing else to interpolate from;
+                    if (!fromEnumerator.MoveNext())
+                        return;
+                }
+
+                while (toEnumerator.Current.NetId < netId)
+                {
+                    if (!toEnumerator.MoveNext())
+                        return;
+                }
+
+                ObjectState objFrom = fromEnumerator.Current;
+                ObjectState objTo = toEnumerator.Current;
+
+                if (objFrom.NetId == netId || objTo.NetId == netId)
+                {
+                    MoveObject(objEnumerator.Current, objFrom, objTo, alpha);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Interpolate the object from state to state with a given alpha
+        /// </summary>
+        /// <param name="obj">The object to move</param>
+        /// <param name="from">the from state</param>
+        /// <param name="to">the to state</param>
+        /// <param name="alpha">the interpolation alpha</param>
+        private void MoveObject(MovementSync obj, ObjectState from, ObjectState to, float alpha)
+        {
+            if (obj.PlayerControlled && obj.HasAuthority)
+                return;
+
+            Transform tr = obj.transform;
+
+            tr.position = Vector3.Lerp(from.Position, to.Position, alpha);
+            tr.rotation = Quaternion.Slerp(from.Rotation, to.Rotation, alpha);
         }
 
 

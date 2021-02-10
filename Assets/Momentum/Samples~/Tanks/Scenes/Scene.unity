@@ -1588,6 +1588,7 @@ GameObject:
   - component: {fileID: 1282001522}
   - component: {fileID: 1282001524}
   - component: {fileID: 1282001527}
+  - component: {fileID: 1282001528}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1813,25 +1814,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Levels:
-  - Name: NetworkBehaviour
-    level: 2
   - Name: ClientObjectManager
     level: 2
-  - Name: NetworkIdentity
+  - Name: RemoteCallHelper
     level: 2
-  - Name: NetworkSceneManager
-    level: 2
-  - Name: NetworkServer
-    level: 2
-  - Name: NetworkTime
-    level: 2
-  - Name: NetworkClient
+  - Name: NetworkBehaviour
     level: 2
   - Name: ServerObjectManager
     level: 2
+  - Name: NetworkClient
+    level: 2
+  - Name: NetworkTime
+    level: 2
+  - Name: NetworkIdentity
+    level: 2
+  - Name: NetworkServer
+    level: 2
+  - Name: NetworkSceneManager
+    level: 2
   - Name: PlayerSpawner
     level: 2
-  - Name: RemoteCallHelper
+  - Name: NetworkBehaviourInspector
     level: 2
   - Name: EnterPlayModeSettingsCheck
     level: 2
@@ -1865,8 +1868,6 @@ MonoBehaviour:
     level: 2
   - Name: WeaverTests
     level: 4
-  - Name: NetworkBehaviourInspector
-    level: 2
   - Name: ChatWindow
     level: 2
   - Name: AdditiveNetworkManager
@@ -1883,6 +1884,22 @@ MonoBehaviour:
     level: 2
   - Name: Tests
     level: 4
+--- !u!114 &1282001528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282001517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8bcb84c20f14c63b0a194ff9249699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SnapshotPerSecond: 10
+  ClientObjectManager: {fileID: 1282001522}
+  ServerObjectManager: {fileID: 1282001524}
+  Trace: 0
 --- !u!1 &1458789072
 GameObject:
   m_ObjectHideFlags: 0
