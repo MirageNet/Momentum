@@ -1,7 +1,7 @@
 {
     "name": "com.mirrorng.momentum",
     "displayName": "Momentum",
-    "version": "2.2.1",
+    "version": "2.3.0",
     "unity": "2019.1",
     "description": "A plugin for MirrorNG for movement synchronization",
     "author": "Paul Pacheco",

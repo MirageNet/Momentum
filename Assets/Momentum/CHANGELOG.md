@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/MirrorNG/Momentum/compare/v2.2.1...v2.3.0) (2021-02-11)
+
+
+### Features
+
+* dynamic time delay ([48e661e](https://github.com/MirrorNG/Momentum/commit/48e661e29ef0a29dd341cf7b75cef0a914b82c19))
+
 ## [2.2.1](https://github.com/MirrorNG/Momentum/compare/v2.2.0...v2.2.1) (2021-02-10)
 
 
