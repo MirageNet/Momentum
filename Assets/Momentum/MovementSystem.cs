@@ -110,6 +110,8 @@ namespace Mirror.Momentum
         #region Client
 
         ExponentialMovingAverage clientTimeOffsetAvg;
+        ExponentialMovingAverage clientSnapshotDeliveryInterval;
+        float? clientLastSnapshotTime;
 
         double clientInterpolationTime;
 
@@ -130,7 +132,9 @@ namespace Mirror.Momentum
 
             iterpolationTimeOffsetAheadThreshold = 1f / SnapshotPerSecond;
             iterpolationTimeOffsetBehindThreshold = -0.5f / SnapshotPerSecond;
+            clientSnapshotDeliveryInterval = new ExponentialMovingAverage(SnapshotPerSecond);
 
+            clientLastSnapshotTime = null;
         }
 
         private void OnClientConnected(INetworkConnection connection)
@@ -155,6 +159,14 @@ namespace Mirror.Momentum
             }
 
             snapshots.Add(snapshot);
+
+            if (clientLastSnapshotTime.HasValue)
+            {
+                clientSnapshotDeliveryInterval.Add(Time.time - clientLastSnapshotTime.Value);
+                interpolationOffset = (float)(SNAPSHOT_OFFSET_COUNT * clientSnapshotDeliveryInterval.Value);
+            }
+
+            clientLastSnapshotTime = Time.time;
 
             var diff = snapshot.Time - clientInterpolationTime;
 
