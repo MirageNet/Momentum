@@ -21,9 +21,6 @@ namespace Mirror.Momentum
 
         private readonly SortedSet<MovementSync> objects = new SortedSet<MovementSync>();
 
-
-        public bool Trace;
-
         public void Awake()
         {
             InitServer();
@@ -112,9 +109,15 @@ namespace Mirror.Momentum
 
         #region Client
 
+        ExponentialMovingAverage clientTimeOffsetAvg;
+
         double clientInterpolationTime;
 
-        const float INTERPOLATION_OFFSET = 0.2f;
+        const int SNAPSHOT_OFFSET_COUNT = 2;
+        private float interpolationOffset;
+        private float iterpolationTimeOffsetAheadThreshold;
+        private float iterpolationTimeOffsetBehindThreshold;
+        private float clientInterpolationTimeScale = 1.0f;
 
         private void InitClient()
         {
@@ -122,6 +125,12 @@ namespace Mirror.Momentum
             ClientObjectManager.UnSpawned.AddListener(UnSpawned);
 
             ClientObjectManager.Client.Authenticated.AddListener(OnClientConnected);
+            clientTimeOffsetAvg = new ExponentialMovingAverage(SnapshotPerSecond);
+            interpolationOffset = (float)SNAPSHOT_OFFSET_COUNT / SnapshotPerSecond;
+
+            iterpolationTimeOffsetAheadThreshold = 1f / SnapshotPerSecond;
+            iterpolationTimeOffsetBehindThreshold = -0.5f / SnapshotPerSecond;
+
         }
 
         private void OnClientConnected(INetworkConnection connection)
@@ -139,17 +148,33 @@ namespace Mirror.Momentum
             if (ClientObjectManager.Client.IsLocalClient)
                 return;
 
-            if (Trace)
-            {
-                Debug.Log($"Got snapshot, current count is {snapshots.Count}");
-            }
             // first snapshot
             if (snapshots.Count == 0)
             {
-                clientInterpolationTime = snapshot.Time - INTERPOLATION_OFFSET;
+                clientInterpolationTime = snapshot.Time - interpolationOffset;
             }
 
             snapshots.Add(snapshot);
+
+            var diff = snapshot.Time - clientInterpolationTime;
+
+            clientTimeOffsetAvg.Add(diff);
+
+            var diffWanted = clientTimeOffsetAvg.Value - interpolationOffset;
+
+            if (diffWanted > iterpolationTimeOffsetAheadThreshold)
+            {
+                clientInterpolationTimeScale = 1.01f;
+            }
+            else if (diffWanted < iterpolationTimeOffsetBehindThreshold)
+            {
+                clientInterpolationTimeScale = 0.99f;
+            }
+            else
+            {
+                clientInterpolationTimeScale = 1.0f;
+            }
+
         }
 
         public void Update()
@@ -165,7 +190,7 @@ namespace Mirror.Momentum
             if (snapshots.Count == 0)
                 return;
 
-            clientInterpolationTime += Time.unscaledDeltaTime;
+            clientInterpolationTime += Time.unscaledDeltaTime * clientInterpolationTimeScale;
 
             float alpha = 0;
 
